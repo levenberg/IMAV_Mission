@@ -83,7 +83,7 @@ int main(int argc, char **argv)
   ////////////////////////////////////////////
   
 
-  /*
+  
   geometry_msgs::PoseStamped msg;
   ros::Time begin=ros::Time::now();
   while(ros::ok()&&ros::Time::now()-begin<ros::Duration(30.0)){
@@ -97,7 +97,11 @@ int main(int argc, char **argv)
     msg.pose.orientation.y=0.0;
     msg.pose.orientation.z=0.0;
     msg.pose.orientation.w=0.0;
-
+    /*msg.velocity.x = 0.8;
+    msg.velocity.y = 0.8;
+    msg.velocity.z = 0.5;
+    msg.yaw = 0;
+    msg.yaw_rate=0;*/
     ROS_INFO("velocity_setpoint:");
     chatter_pub.publish(msg);
     ros::spinOnce();
@@ -119,7 +123,7 @@ int main(int argc, char **argv)
   }else{
     ROS_ERROR("Failed Land");
   }
-  */
+  
   while (n.ok())
   {
     ros::spinOnce();

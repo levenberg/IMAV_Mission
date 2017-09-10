@@ -10,6 +10,7 @@
 #include "geometry_msgs/TwistStamped.h"
 #include "geometry_msgs/Vector3Stamped.h"
 #include "geometry_msgs/PoseStamped.h"
+#include "mavros_msgs/ManualControl"
 #include "sensor_msgs/Imu.h"
 void localposcb(const geometry_msgs::PoseStamped &msg)
 {
@@ -32,7 +33,7 @@ int main(int argc, char **argv)
   ros::Subscriber local_pos_sub = n.subscribe("/mavros/local_position/pose", 1, localposcb);
   ros::Subscriber imu_sub =n.subscribe("mavros/imu/data",1, imu_callback);
   
-  ros::Publisher chatter_pub = n.advertise<geometry_msgs::PoseStamped>("/mavros/setpoint_position/local",100);
+  ros::Publisher chatter_pub = n.advertise<mavros_msgs::ManualControl>("/mavros/manual_control/control",100);
   ros::Rate loop_rate(20);
 
   ////////////////////////////////////////////
@@ -83,20 +84,18 @@ int main(int argc, char **argv)
   ////////////////////////////////////////////
   
 
-  /*
-  geometry_msgs::PoseStamped msg;
+
+  mavros_msgs::ManualControl msg;
   ros::Time begin=ros::Time::now();
   while(ros::ok()&&ros::Time::now()-begin<ros::Duration(30.0)){
     msg.header.stamp = ros::Time::now();
     ncount++;
     msg.header.seq=ncount;
-    msg.pose.position.x = -10;
-    msg.pose.position.y = 0;
-    msg.pose.position.z = 3;
-    msg.pose.orientation.x=0.0;
-    msg.pose.orientation.y=0.0;
-    msg.pose.orientation.z=0.0;
-    msg.pose.orientation.w=0.0;
+    msg.x = 10;
+    msg.y = 0;
+    msg.z = 3;
+    msg.r =0.0;
+
 
     ROS_INFO("velocity_setpoint:");
     chatter_pub.publish(msg);
@@ -119,7 +118,7 @@ int main(int argc, char **argv)
   }else{
     ROS_ERROR("Failed Land");
   }
-  */
+
   while (n.ok())
   {
     ros::spinOnce();
